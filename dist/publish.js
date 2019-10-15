@@ -17,6 +17,8 @@ const publish = async ({
   extensionId,
   target,
   asset
+}, {
+  logger
 }) => {
   const {
     GOOGLE_CLIENT_ID: clientId,
@@ -57,10 +59,15 @@ const publish = async ({
     const errors = [];
 
     for (let i = 0; i < publishRes.status.length; i += 1) {
-      const message = publishRes.statusDetail[i];
       const code = publishRes.status[i];
-      const err = new _error.default(message, code);
-      errors.push(err);
+      const message = publishRes.statusDetail[i];
+
+      if (code.includes('WARNING')) {
+        logger.log('%s: %s', code, message);
+      } else {
+        const err = new _error.default(message, code);
+        errors.push(err);
+      }
     }
 
     throw new _aggregateError.default(errors);
