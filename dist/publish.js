@@ -61,6 +61,10 @@ const publish = async ({
     for (let i = 0; i < publishRes.status.length; i += 1) {
       const code = publishRes.status[i];
       const message = publishRes.statusDetail[i];
+      console.log(code.includes('WARNING'), code, message, JSON.stringify({
+        code,
+        message
+      }));
 
       if (code.includes('WARNING')) {
         logger.log('%s: %s', code, message);
@@ -68,9 +72,8 @@ const publish = async ({
         const err = new _error.default(message, code);
         errors.push(err);
       }
-    }
+    } // throw new AggregateError(errors)
 
-    throw new _aggregateError.default(errors);
   }
 
   return {

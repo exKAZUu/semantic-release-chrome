@@ -58,6 +58,7 @@ const publish = async ({ extensionId, target, asset }: PluginConfig, { logger }:
     for (let i = 0; i < publishRes.status.length; i += 1) {
       const code = publishRes.status[i]
       const message = publishRes.statusDetail[i]
+      console.log(code.includes('WARNING'), code, message, JSON.stringify({ code, message }))
       if (code.includes('WARNING')) {
         logger.log('%s: %s', code, message)
       } else {
@@ -65,7 +66,7 @@ const publish = async ({ extensionId, target, asset }: PluginConfig, { logger }:
         errors.push(err)
       }
     }
-    throw new AggregateError(errors)
+    // throw new AggregateError(errors)
   }
 
   return {
