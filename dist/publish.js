@@ -65,6 +65,11 @@ const publish = async ({
         code,
         message
       }));
+      logger.log('%s', JSON.stringify({
+        warning: code.includes('WARNING'),
+        code,
+        message
+      }));
 
       if (code.includes('WARNING')) {
         logger.log('%s: %s', code, message);

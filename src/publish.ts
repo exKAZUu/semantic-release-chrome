@@ -59,6 +59,7 @@ const publish = async ({ extensionId, target, asset }: PluginConfig, { logger }:
       const code = publishRes.status[i]
       const message = publishRes.statusDetail[i]
       console.log(code.includes('WARNING'), code, message, JSON.stringify({ code, message }))
+      logger.log('%s', JSON.stringify({ warning: code.includes('WARNING'), code, message }))
       if (code.includes('WARNING')) {
         logger.log('%s: %s', code, message)
       } else {
